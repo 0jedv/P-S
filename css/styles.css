@@ -1,0 +1,166 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --primary-color: #ca22e8;
+    --secondary-color: #10a5c7;
+    --background-color: #0A0A0A; /* Negro profundo */
+    --light-black: #28282B; /* Negro-claro */
+    --text-color: #FBFCF8; /* Color perla */
+    --negro-fondo: #ff2222;
+    --color-de-resalte: #ffffff;
+}
+header{
+    background-color: var(--background-color);
+}
+
+body{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'texto';
+        
+}
+main h1 ,h2{
+    font-family: 'texto';
+
+}
+
+
+.logo{
+    width: 150px;
+    height: auto;
+}
+.favicon{
+    width: 50px;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+.favicon:hover{
+    transform: scale(1.2);
+}
+
+.menu{
+    margin-right: 20vh;
+    margin-left: auto;  
+}
+.line-divider{
+    background-color: transparent;
+    border: solid 1px #ee89f5;
+    box-shadow: 
+        0 0 5px var(--primary-color),    /* Brillo bajo, cercano */
+        0 0 10px var(--primary-color),   /* Brillo medio */
+        0 0 20px var(--secondary-color); /* Brillo alto y más disperso */
+}
+.nav-link{
+    color: var(--color-de-resalte);
+    text-shadow:
+        0 0 5px var(--background-color),   /* Resplandor intermedio */
+        0 0 5px var(--text-color), /* Resplandor más amplio y difuso */
+        0 0 5px var(--text-color); /* Capa extra para un brillo más intenso */
+}
+.nav-link:hover{
+    color: var(--color-de-resalte);
+    text-shadow:
+        0 0 5px var(--background-color),   /* Resplandor intermedio */
+        0 0 10px var(--text-color), /* Resplandor más amplio y difuso */
+        0 0 20px var(--text-color); /* Capa extra para un brillo más intenso */
+}
+
+.hero-section{
+    margin: 5vh;
+}
+.cuadro-jugadores{
+    padding: 25px;
+    background-color: var(--color-de-resalte);
+    border-radius: 20px;
+}
+.card{
+    background-color: var(--background-color);
+}
+.boton{
+    background-color: var(--color-de-resalte);
+    border-radius: 7px;
+    padding: 10px;
+    text-decoration: none;
+    
+    
+}
+.titulo{
+    text-decoration: none;
+    color: var(--text-color);
+}
+.boton-index{
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-black);
+
+    /* Aplica la posición pegajosa */
+    position: sticky; 
+    
+    /* Define dónde se pegará */
+    bottom: 50px;  /* Margen de 50px desde el borde inferior */
+
+    right: 50px; /* Margen de 50px desde el borde derecho */
+    margin-left: auto;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .boton-index {
+        bottom: 20px;  /* Margen de 20px desde el borde inferior */
+        right: 20px; /* Margen de 20px desde el borde derecho */
+    }
+}
+/*Neon letras:
+    text-shadow:
+        0 0 5px var(--background-color),   /* Resplandor intermedio
+        0 0 5px var(--text-color), /* Resplandor más amplio y difuso
+        0 0 5px var(--text-color); /* Capa extra para un brillo más intenso
+*/
+
+
+
+/* CSS reglas.php */
+
+
+/* Fuentes */
+
+@font-face {
+    font-family: 'texto'; /* 1. Nombre que usarás en CSS */
+    src: url('./../src/fonts/Bungee/Bungee-Regular.ttf') format('truetype'); /* 2. Define la ruta y el formato */
+}
+.boton-reglas{
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-black);
+
+    /* Aplica la posición pegajosa */
+    position: sticky; 
+    
+    /* Define dónde se pegará */
+    bottom: 50px;  /* Margen de 50px desde el borde inferior */
+
+    right: 50px; /* Margen de 50px desde el borde derecho */
+    margin-left: auto;
+}
+
+.boton img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 768px) {
+    .boton-reglas {
+        bottom: 20px;  /* Margen de 20px desde el borde inferior */
+        right: 20px; /* Margen de 20px desde el borde derecho */
+    }
+}
