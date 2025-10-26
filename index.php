@@ -4,6 +4,10 @@ session_start();
 if (!isset($_SESSION['jugadores'])) {
     $_SESSION['jugadores'] = [];
 }
+if($cont_jugadores = count($_SESSION['jugadores'])) {
+        mostrarJugadores();
+
+}
 
 // Variables
 
@@ -50,7 +54,6 @@ $hayJugadores = !empty($_SESSION['jugadores']);
 
             <form method="POST" enctype="multipart/form-data" id="formJugadores">
                 <div class="container-fluid">
-                    
                     <div class="cuadro-jugadores row justify-content-center align-items-center" id="contenedorJugadores">
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador">
                             <div class="card p-4 d-flex gap-2">
@@ -73,7 +76,9 @@ $hayJugadores = !empty($_SESSION['jugadores']);
                             </div>
                         </div>
                     </div>
-                    <button class="submit p-3 bg-primary mt-3 justify-content-center">Validar Jugadores</button>
+                    <div class="d-flex justify-content-center">
+                        <button class="submit p-3 bg-primary mt-3">Validar Jugadores</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -86,7 +91,33 @@ $hayJugadores = !empty($_SESSION['jugadores']);
         <p>Juega con responsabilidad y solo si eres mayor de edad.</p>
     </footer>
 
-    
+    <?php
+    function mostrarJugadores() {
+        echo "<script>
+            const contenedorJugadores = document.getElementById('contenedorJugadores');
+            contenedorJugadores.innerHTML = '';";
+        
+        foreach ($_SESSION['jugadores'] as $jugador) {
+            $nombre = htmlspecialchars($jugador['nombre'], ENT_QUOTES, 'UTF-8');
+            $foto = htmlspecialchars($jugador['foto'], ENT_QUOTES, 'UTF-8');
+            
+            echo "
+            const tarjetaJugador = document.createElement('div');
+            tarjetaJugador.className = 'col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador';
+            tarjetaJugador.innerHTML = `
+                <div class='card p-4 d-flex gap-2'>
+                    <input type='text' name='nombres[]' value='{$nombre}' required>
+                    <input type='file' name='fotos[]' accept='image/*' required>
+                    <img src='{$foto}' alt='Foto de {$nombre}' class='img-fluid mt-2'>
+                </div>
+            `;
+            contenedorJugadores.appendChild(tarjetaJugador);
+            ";
+        }
+        
+        echo "</script>";
+    }
+    ?>
 
 </body>
 </html>
