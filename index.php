@@ -5,35 +5,10 @@ if (!isset($_SESSION['jugadores'])) {
     $_SESSION['jugadores'] = [];
 }
 
-// Agregar jugadores (NO limpia los anteriores)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
-    for ($i = 0; $i < count($_POST['nombres']); $i++) {
-        if (!empty($_POST['nombres'][$i]) && !empty($_FILES['fotos']['name'][$i])) {
-            $ruta = './uploads/' . uniqid() . '_' . $_FILES['fotos']['name'][$i];
-            move_uploaded_file($_FILES['fotos']['tmp_name'][$i], $ruta);
-            $_SESSION['jugadores'][] = ['nombre' => $_POST['nombres'][$i], 'foto' => $ruta];
-        }
-    }
-    header('Location: index.php');
-    exit;
-}
-
-// Iniciar juego
-if (isset($_POST['iniciar'])) {
-    // Aquí más adelante haremos la lógica del juego
-    header('Location: pages/juego.php');
-    exit;
-}
-
-// Limpiar jugadores
-if (isset($_GET['limpiar'])) {
-    session_destroy();
-    header('Location: index.php');
-    exit;
-}
+// Variables
 
 $hayJugadores = !empty($_SESSION['jugadores']);
-$jugadores = $_SESSION['jugadores'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -71,37 +46,10 @@ $jugadores = $_SESSION['jugadores'];
                 <p>Prepárate para las preguntas más atrevidas. ¡El juego está a punto de empezar!</p>
             </div>
 
-            <!-- MOSTRAR JUGADORES YA GUARDADOS -->
-            <?php if ($hayJugadores): ?>
-            <div class="container-fluid mb-4">
-                <h3 class="text-center mb-3">Jugadores Actuales (<?= count($jugadores) ?>)</h3>
-                <div class="row justify-content-center">
-                    <?php foreach ($jugadores as $j): ?>
-                    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-                        <div class="card p-3 text-center">
-                            <img src="<?= $j['foto'] ?>" alt="<?= $j['nombre'] ?>" 
-                                 style="width: 100%; height: 150px; object-fit: cover; border-radius: 10px;">
-                            <h5 class="mt-2 text-white"><?= $j['nombre'] ?></h5>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="text-center">
-                    <a href="?limpiar=1" class="btn btn-danger">Limpiar Jugadores</a>
-                </div>
-            </div>
-            <?php endif; ?>
+            
 
-            <!-- FORMULARIO PARA AGREGAR MÁS JUGADORES -->
             <form method="POST" enctype="multipart/form-data" id="formJugadores">
                 <div class="container-fluid">
-                    <h4 class="text-center mb-3">Agregar Jugadores</h4>
-                    
-                    <div class="text-center mb-3">
-                        <button type="button" class="btn btn-success" id="btnAgregarJugador">
-                            + Agregar Campo
-                        </button>
-                    </div>
                     
                     <div class="cuadro-jugadores row justify-content-center align-items-center" id="contenedorJugadores">
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador">
@@ -125,20 +73,7 @@ $jugadores = $_SESSION['jugadores'];
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- BOTONES: ACEPTAR E INICIAR JUEGO -->
-                <!-- BOTONES: ACEPTAR E INICIAR JUEGO -->
-                <div class="text-center mt-3 d-flex gap-3 justify-content-center flex-wrap">
-                    <button type="submit" name="agregar" class="btn btn-primary p-3" style="font-size: 1.1rem; font-weight: bold;">
-                        Aceptar Jugadores
-                    </button>
-                    
-                    <?php if ($hayJugadores): ?>
-                    <button type="submit" name="iniciar" formnovalidate class="boton p-3" style="font-size: 1.2rem; font-weight: bold;">
-                        🎮 Iniciar Juego
-                    </button>
-                    <?php endif; ?>
+                    <button class="submit p-3 bg-primary mt-3 justify-content-center">Validar Jugadores</button>
                 </div>
             </form>
         </div>
@@ -151,24 +86,7 @@ $jugadores = $_SESSION['jugadores'];
         <p>Juega con responsabilidad y solo si eres mayor de edad.</p>
     </footer>
 
-    <script>
-        document.getElementById('btnAgregarJugador').addEventListener('click', function() {
-            const contenedor = document.getElementById('contenedorJugadores');
-            const nuevaTarjeta = document.createElement('div');
-            nuevaTarjeta.className = 'col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador';
-            nuevaTarjeta.innerHTML = `
-                <div class="card p-4 d-flex gap-2">
-                    <input type="text" name="nombres[]" placeholder="Nombre" required>
-                    <input type="file" name="fotos[]" accept="image/*" required>
-                    <button type="button" class="btn btn-danger btn-sm btnEliminar">Eliminar</button>
-                </div>
-            `;
-            contenedor.appendChild(nuevaTarjeta);
-            nuevaTarjeta.querySelector('.btnEliminar').addEventListener('click', function() {
-                nuevaTarjeta.remove();
-            });
-        });
-    </script>
+    
 
 </body>
 </html>
