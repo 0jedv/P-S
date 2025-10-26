@@ -5,9 +5,8 @@ if (!isset($_SESSION['jugadores'])) {
     $_SESSION['jugadores'] = [];
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['jugadores'] = [];
-    
+// Agregar jugadores (NO limpia los anteriores)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     for ($i = 0; $i < count($_POST['nombres']); $i++) {
         if (!empty($_POST['nombres'][$i]) && !empty($_FILES['fotos']['name'][$i])) {
             $ruta = './uploads/' . uniqid() . '_' . $_FILES['fotos']['name'][$i];
@@ -19,13 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
+// Iniciar juego
+if (isset($_POST['iniciar'])) {
+    // Aquí más adelante haremos la lógica del juego
+    header('Location: pages/juego.php');
+    exit;
+}
+
+// Limpiar jugadores
 if (isset($_GET['limpiar'])) {
     session_destroy();
     header('Location: index.php');
     exit;
 }
 
-// Preparar datos para el HTML
 $hayJugadores = !empty($_SESSION['jugadores']);
 $jugadores = $_SESSION['jugadores'];
 ?>
@@ -42,7 +48,6 @@ $jugadores = $_SESSION['jugadores'];
 
    <header id="header">
         <div class="container-fluid pt-2"> 
-            
             <div class="header-content align-items-center row ">
                 <div class="col-sm-6 col-md-4 col-lg-4 d-flex justify-content-center justify-content-md-start">
                     <a href="./index.php"><img src="./src/img/favicon2.png" class="favicon" ></a>
@@ -55,7 +60,6 @@ $jugadores = $_SESSION['jugadores'];
                     <a href="./pages/contact.php" class="nav-link">Contacto</a>
                 </nav>
             </div>
-            
             <hr class="line-divider mb-5">
         </div>
     </header>
@@ -67,9 +71,10 @@ $jugadores = $_SESSION['jugadores'];
                 <p>Prepárate para las preguntas más atrevidas. ¡El juego está a punto de empezar!</p>
             </div>
 
+            <!-- MOSTRAR JUGADORES YA GUARDADOS -->
             <?php if ($hayJugadores): ?>
             <div class="container-fluid mb-4">
-                <h3 class="text-center mb-3">Jugadores Actuales</h3>
+                <h3 class="text-center mb-3">Jugadores Actuales (<?= count($jugadores) ?>)</h3>
                 <div class="row justify-content-center">
                     <?php foreach ($jugadores as $j): ?>
                     <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
@@ -86,8 +91,18 @@ $jugadores = $_SESSION['jugadores'];
                 </div>
             </div>
             <?php endif; ?>
+
+            <!-- FORMULARIO PARA AGREGAR MÁS JUGADORES -->
             <form method="POST" enctype="multipart/form-data" id="formJugadores">
                 <div class="container-fluid">
+                    <h4 class="text-center mb-3">Agregar Jugadores</h4>
+                    
+                    <div class="text-center mb-3">
+                        <button type="button" class="btn btn-success" id="btnAgregarJugador">
+                            + Agregar Campo
+                        </button>
+                    </div>
+                    
                     <div class="cuadro-jugadores row justify-content-center align-items-center" id="contenedorJugadores">
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador">
                             <div class="card p-4 d-flex gap-2">
@@ -106,17 +121,24 @@ $jugadores = $_SESSION['jugadores'];
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador">
                             <div class="card p-4 d-flex gap-2">
                                 <input type="text" name="nombres[]" placeholder="Nombre">
-                                <input type="file" name="fotos[]" accept="image/*" required>
+                                <input type="file" name="fotos[]" accept="image/*">
                             </div>
                         </div>
-                    <div class="text-center mt-3">
-                        <button type="button" class="btn btn-success" id="btnAgregarJugador">
-                            + Agregar Jugador
-                        </button>
                     </div>
                 </div>
-                <div class="text-center">
-                    <button type="submit" class="boton p-3 mt-3" style="font-size: 1.2rem; font-weight: bold;">Iniciar Juego</button>
+                
+                <!-- BOTONES: ACEPTAR E INICIAR JUEGO -->
+                <!-- BOTONES: ACEPTAR E INICIAR JUEGO -->
+                <div class="text-center mt-3 d-flex gap-3 justify-content-center flex-wrap">
+                    <button type="submit" name="agregar" class="btn btn-primary p-3" style="font-size: 1.1rem; font-weight: bold;">
+                        Aceptar Jugadores
+                    </button>
+                    
+                    <?php if ($hayJugadores): ?>
+                    <button type="submit" name="iniciar" formnovalidate class="boton p-3" style="font-size: 1.2rem; font-weight: bold;">
+                        🎮 Iniciar Juego
+                    </button>
+                    <?php endif; ?>
                 </div>
             </form>
         </div>
