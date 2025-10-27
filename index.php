@@ -19,6 +19,7 @@ $hayJugadores = !empty($_SESSION['jugadores']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/index.js"></script>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
     <title>Party & S.E.(X)</title>
@@ -57,15 +58,15 @@ $hayJugadores = !empty($_SESSION['jugadores']);
                     <div class="cuadro-jugadores row justify-content-center align-items-center" id="contenedorJugadores">
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador">
                             <div class="card p-4 d-flex gap-2">
-                                <input type="text" name="nombres[]" placeholder="Nombre" required>
-                                <input type="file" name="fotos[]" accept="image/*" required>
+                                <input type="text" name="nombres[]" placeholder="Nombre">
+                                <input type="file" name="fotos[]" accept="image/*">
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 tarjeta-jugador">
                             <div class="card p-4 d-flex gap-2">
-                                <input type="text" name="nombres[]" placeholder="Nombre" required>
-                                <input type="file" name="fotos[]" accept="image/*" required>
+                                <input type="text" name="nombres[]" placeholder="Nombre">
+                                <input type="file" name="fotos[]" accept="image/*">
                             </div>
                         </div>
 
@@ -76,8 +77,11 @@ $hayJugadores = !empty($_SESSION['jugadores']);
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <button class="submit p-3 bg-primary mt-3">Validar Jugadores</button>
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+                        <button type="button" onclick="añadirTarjeta()" class="p-3 bg-color-secundary">Añadir Jugador</button>  <?php //Se le pone type="button" porque al estar dentro del formulario, si no pones nada lo considera como el submit. Z>Se le pone type="button" porque al estar dentro del formulario, si no pones nada lo considera como el submit. ?>
+
+                        
+                        <button class="submit p-3 bg-primary ">Validar Jugadores</button>
                     </div>
                 </div>
             </form>
